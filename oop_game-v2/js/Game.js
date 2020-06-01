@@ -32,4 +32,15 @@ class Game {
     const randNum = Math.floor(Math.random() * this.phrases.length);
     return this.phrases[randNum];
   }
+
+  /**
+   * Begins game by selecting a random phrase and displaying it to user
+   */
+  startGame() {
+    const screenOverlay = document.getElementById("overlay");
+    screenOverlay.style.display = "none";
+    const newPhrase = this.getRandomPhrase();
+    newPhrase.addPhraseToDisplay(); // do i need to call this on an object?
+    this.activePhrase = newPhrase;
+  }
 }
