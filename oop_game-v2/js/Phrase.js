@@ -27,5 +27,25 @@ class Phrase {
         phraseContainer.appendChild(letter);
       }
     }
+    this.letterBoxes = document.getElementsByClassName("letter");
+  }
+
+  /**
+   * Checks if passed letter is in phrase
+   * @param (string) letter - Letter to check
+   */
+  checkLetter(letter) {
+    return this.phrase.includes(letter);
+  }
+
+  /**
+   * Displays passed letter on screen after a match is found
+   * @param (string) letter - Letter to display
+   */
+  showMatchedLetter(letter) {
+    for (let i = 0; i < this.letterBoxes.length; i++) {
+      if (letter === this.letterBoxes[i].innerHTML)
+        this.letterBoxes[i].classList.add("show");
+    }
   }
 }
