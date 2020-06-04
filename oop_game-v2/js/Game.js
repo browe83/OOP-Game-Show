@@ -39,18 +39,58 @@ class Game {
   startGame() {
     const phraseContainer = document.getElementById("phrase").firstElementChild;
     phraseContainer.innerHTML = "";
+    this.missed = 0;
     this.screenOverlay = document.getElementById("overlay");
     this.screenOverlay.style.display = "none";
 
+    for (let i = 0; i < keyboardButtons.length; i++) {
+      if (keyboardButtons[i].classList.contains("chosen")) {
+        keyboardButtons[i].classList.remove("chosen");
+      } else if (keyboardButtons[i].classList.contains("wrong")) {
+        keyboardButtons[i].classList.remove("wrong");
+      }
+    }
+    const livesContainers = document.querySelector("ol").children;
+
+    for (let i = 0; i < livesContainers.length; i++) {
+      livesContainers[i].classList.add("tries");
+      livesContainers[i].firstElementChild.src = "images/liveHeart.png";
+    }
+
+    for (let i = 0; i < keyboardButtons.length; i++) {
+      if ((keyboardButtons[i].disabled = true)) {
+        keyboardButtons[i].disabled = false;
+      }
+    }
+
+    if (this.screenOverlay.classList.contains("win")) {
+      this.screenOverlay.classList.replace("win", "start");
+    } else if (this.screenOverlay.classList.contains("lose")) {
+      this.screenOverlay.classList.replace("lose", "start");
+    }
     const newPhrase = this.getRandomPhrase();
     newPhrase.addPhraseToDisplay();
     this.activePhrase = newPhrase;
   }
 
-  //   handleInteraction(e) {
-  //     const clickedLetter = e.target;
-  //     }
-  //   }
+  /**
+   * Handles onscreen keyboard button clicks
+   * @param (HTMLButtonElement) button - The clicked button element
+   */
+  handleInteraction(keyboardButton) {
+    keyboardButton.disabled = true;
+
+    if (this.activePhrase.phrase.includes(keyboardButton.textContent)) {
+      keyboardButton.classList.add("chosen");
+      this.activePhrase.showMatchedLetter(keyboardButton.textContent);
+      if (this.checkForWin()) {
+        this.gameOver(true);
+      }
+    } else {
+      keyboardButton.classList.add("wrong");
+      this.removeLife();
+    }
+  }
 
   /**
 * Checks for winning move
@@ -73,7 +113,9 @@ won
    * Checks if player has remaining lives and ends game if player is out
    */
   removeLife() {
-    if (document.querySelector(".tries") === null) {
+    this.missed += 1;
+
+    if (this.missed === 5) {
       this.gameOver(false);
     } else {
       document.querySelector(".tries").firstElementChild.src =
