@@ -6,7 +6,8 @@ class Game {
   constructor() {
     this.missed = 0;
     this.phrases = this.createPhrases();
-    this.activePhrase = null; //should this be a string?
+    this.activePhrase = null;
+    this.ready = false;
   }
 
   /**
@@ -37,11 +38,15 @@ class Game {
    * Begins game by selecting a random phrase and displaying it to user
    */
   startGame() {
+    this.ready = true;
     const phraseContainer = document.getElementById("phrase").firstElementChild;
     phraseContainer.innerHTML = "";
     this.missed = 0;
     this.screenOverlay = document.getElementById("overlay");
     this.screenOverlay.style.display = "none";
+    const newPhrase = this.getRandomPhrase();
+    this.activePhrase = newPhrase;
+    newPhrase.addPhraseToDisplay();
 
     for (let i = 0; i < keyboardButtons.length; i++) {
       if (keyboardButtons[i].classList.contains("chosen")) {
@@ -68,9 +73,6 @@ class Game {
     } else if (this.screenOverlay.classList.contains("lose")) {
       this.screenOverlay.classList.replace("lose", "start");
     }
-    const newPhrase = this.getRandomPhrase();
-    newPhrase.addPhraseToDisplay();
-    this.activePhrase = newPhrase;
   }
 
   /**
@@ -78,17 +80,18 @@ class Game {
    * @param (HTMLButtonElement) button - The clicked button element
    */
   handleInteraction(keyboardButton) {
-    keyboardButton.disabled = true;
-
-    if (this.activePhrase.phrase.includes(keyboardButton.textContent)) {
-      keyboardButton.classList.add("chosen");
-      this.activePhrase.showMatchedLetter(keyboardButton.textContent);
-      if (this.checkForWin()) {
-        this.gameOver(true);
+    if (this.ready) {
+      keyboardButton.disabled = true;
+      if (this.activePhrase.phrase.includes(keyboardButton.textContent)) {
+        keyboardButton.classList.add("chosen");
+        this.activePhrase.showMatchedLetter(keyboardButton.textContent);
+        if (this.checkForWin()) {
+          this.gameOver(true);
+        }
+      } else {
+        keyboardButton.classList.add("wrong");
+        this.removeLife();
       }
-    } else {
-      keyboardButton.classList.add("wrong");
-      this.removeLife();
     }
   }
 
@@ -131,6 +134,7 @@ won
    * @param {boolean} gameWon - Whether or not the user won the game
    */
   gameOver(gameWon) {
+    this.ready = false;
     this.screenOverlay.style.display = "";
     const gameOverMsg = document.getElementById("game-over-message");
     if (gameWon) {
