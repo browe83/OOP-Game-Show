@@ -1,16 +1,14 @@
-# OOP-Game-Show-Project-4
+# OOP Game Show
+### TechDegree Project 4  
+Disclaimer: I completed this project as part of my Treehouse Full Stack JavaScript Techdegree. CSS and HTML were provided.
 
-JavaScript by Brandon Rowe
+## About
+This project creates a browser-based, word guessing game: `Phrase Hunter.' Using JavaScript and Object-Oriented Programming, it selects a random, hidden phrase, which a player tries to guess, by clicking letters on an onscreen or physical keyboard.  The first image shows initial state of a new game, while the second shows a partially completed game. The hearts at the bottom indicate how many incorrect attempts a player has before losing.
 
-Thanks so much for looking at my project!
+### Technologies
+* JavaScript
+* VSCode
+* GitHub
 
-I am going for exceeds expectations. As a result:
-
-1. An event listener has been added for the keydown event so that pressing a physical keyboard button results in the handleInteraction() method being called for the associated onscreen keyboard button.
-
-2. The app styles have been personalized: The original colors for #overlay, .title and .start have been commented out and replaced with yellow or green.
-
-Thanks again for your time and expertise.
-
-Best,
-Brandon
+## Installation
+After cloning repository, locate and open the index.html file to launch the app.
