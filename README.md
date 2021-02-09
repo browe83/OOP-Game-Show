@@ -11,4 +11,8 @@ This project creates a browser-based, word guessing game: `Phrase Hunter.' Using
 * GitHub
 
 ## Installation
-After cloning repository, locate and open the index.html file to launch the app.
+```shell
+$ git clone https://github.com/browe83/List-Pagination-and-Filtering.git
+$ cd List-Pagination-and-Filtering
+$ open index.html
+```
